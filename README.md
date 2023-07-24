@@ -1,4 +1,4 @@
-## API REST Spring Boot con Conexión a Base de Dtos SQL ## 
+## API REST Spring Boot con Conexión a Base de Datos SQL ## 
 
 Este es un README para la API REST desarrollada con Spring Boot que proporciona endpoints para interactuar con una base de datos SQL. Esta API permitirá realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) en la base de datos a través de peticiones HTTP.
 
