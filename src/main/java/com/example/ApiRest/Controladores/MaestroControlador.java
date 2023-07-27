@@ -1,5 +1,6 @@
 package com.example.ApiRest.Controladores;
 
+import com.example.ApiRest.Controladores.ManejoExcepciones.MaestroNoEncontrado;
 import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Entidades.Maestro;
 import com.example.ApiRest.Servicios.MaestroServicio;
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +43,10 @@ public class MaestroControlador {
     // Llama a maestroServicio.obtenerMaestro(id) para obtener un maestro por su ID.
     @GetMapping("/{id_maestro}")
     @ApiOperation("Obtener la informacion un maestro mediante su id")
-    public Optional<Maestro> obtenerMaestro(
+    public Maestro obtenerMaestro(
             @ApiParam(value = "id_maestro", required = true)
             @PathVariable Long id){
-        return maestroServicio.obtenerMaestro(id);
+        return maestroServicio.obtenerMaestro(id).orElseThrow(() -> new MaestroNoEncontrado(id));
     }
 
     // @PostMapping: Mapea el método registrarMaestro() a la ruta /maestro y responde a solicitudes POST.
@@ -54,7 +56,7 @@ public class MaestroControlador {
     @ApiOperation("Registra un nuevo maestro")
     public void registrarMaestro(
             @ApiParam(value = "datos del nuevo maestro", required = true)
-            @RequestBody Maestro maestro){
+            @Valid @RequestBody Maestro maestro){
         maestroServicio.registrarMaestro(maestro);
     }
 
@@ -65,7 +67,7 @@ public class MaestroControlador {
     @ApiOperation("Edita los datos de un maestro mediante su id")
     public void actualizarMaestro(
             @ApiParam(value = "datos nuevos del maestro", required = true)
-            @RequestBody Maestro maestro,
+            @Valid @RequestBody Maestro maestro,
             @ApiParam(value = "id_maestro", required = true)
             @PathVariable Long id){
         maestroServicio.actualizarMaestro(maestro, id);

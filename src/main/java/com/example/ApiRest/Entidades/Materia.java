@@ -3,6 +3,9 @@ package com.example.ApiRest.Entidades;
 import com.fasterxml.jackson.annotation.JsonProperty;
 //import jakarta.persistence.*;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 import java.util.HashSet;
@@ -23,12 +26,16 @@ public class Materia {
     // @Column: Se utiliza para mapear el atributo 'nombre' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'nombre' no puede ser nulo en la tabla.
+    @Max(80)
+    @NotBlank
     @Column(name = "nombre", nullable = false, length = 80)
     private String nombre;
 
     // @Column: Se utiliza para mapear el atributo 'horario' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'horario' no puede ser nulo en la tabla.
+    @Max(80)
+    @NotBlank
     @Column(name = "horario", nullable = false, length = 80)
     private String horario;
 
@@ -36,6 +43,8 @@ public class Materia {
     // 'name' especifica el nombre de la columna en la tabla.
     // 'unique = true' indica que el valor del atributo 'salon' debe ser único en la tabla.
     // 'nullable = false' indica que el valor del atributo 'salon' no puede ser nulo en la tabla.
+    @Max(50)
+    @NotBlank
     @Column(name = "salon", unique = true, nullable = false, length = 50)
     private String salon;
 

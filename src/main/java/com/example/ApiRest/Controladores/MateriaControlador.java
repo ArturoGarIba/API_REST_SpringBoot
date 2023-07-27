@@ -1,5 +1,6 @@
 package com.example.ApiRest.Controladores;
 
+import com.example.ApiRest.Controladores.ManejoExcepciones.MateriaNoEncontrada;
 import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Entidades.Materia;
 import com.example.ApiRest.Servicios.EstudianteServicio;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,10 +45,10 @@ public class MateriaControlador {
     // Llama a materiaServicio.obtenerMateria(id) para obtener una materia por su ID.
     @GetMapping("/{id_maestro}")
     @ApiOperation("Obtener una materia mediante su id")
-    public Optional<Materia> obtenerMateria(
+    public Materia obtenerMateria(
             @ApiParam(value = "id_materia", required = true)
             @PathVariable Long id){
-        return materiaServicio.obtenerMateria(id);
+        return materiaServicio.obtenerMateria(id).orElseThrow(() -> new MateriaNoEncontrada(id));
     }
 
     // @PostMapping: Mapea el método registrarMaestro() a la ruta /materia y responde a solicitudes POST.
@@ -57,7 +59,7 @@ public class MateriaControlador {
     @PostMapping("/materias")
     @ApiOperation("Registrar una nueva materia")
     public void registrarMateria(
-            @RequestBody Materia materia) {
+           @Valid @RequestBody Materia materia) {
         materiaServicio.registrarMateria(materia);
 //        return ResponseEntity.ok();
     }
@@ -69,7 +71,7 @@ public class MateriaControlador {
     @ApiOperation("Edita los datos de una materia mediante su id")
     public void actualizarMateria(
             @ApiParam(value = "datos nuevos de la materia", required = true)
-            @RequestBody Materia materia,
+            @Valid @RequestBody Materia materia,
             @ApiParam(value = "id_materia", required = true)
             @PathVariable Long id){
         materiaServicio.actualizarMateria(materia, id);

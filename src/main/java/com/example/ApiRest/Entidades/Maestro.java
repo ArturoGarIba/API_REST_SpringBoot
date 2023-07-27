@@ -3,6 +3,11 @@ package com.example.ApiRest.Entidades;
 import com.fasterxml.jackson.annotation.JsonProperty;
 //import jakarta.persistence.*;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 import java.util.List;
@@ -21,12 +26,16 @@ public class Maestro {
     // @Column: Se utiliza para mapear el atributo 'nombre' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'nombre' no puede ser nulo en la tabla.
+    @Max(80)
+    @NotBlank
     @Column(name = "nombre", nullable = false, length = 80)
     private String nombre;
 
     // @Column: Se utiliza para mapear el atributo 'apellido_paterno' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'apellido_paterno' no puede ser nulo en la tabla.
+    @Max(80)
+    @NotBlank
     @Column(name = "apellido_paterno", nullable = false, length = 80)
     private String apellido_paterno;
 
@@ -34,12 +43,18 @@ public class Maestro {
     // 'name' especifica el nombre de la columna en la tabla.
     // 'unique = true' indica que el valor del atributo 'email' debe ser único en la tabla.
     // 'nullable = false' indica que el valor del atributo 'email' no puede ser nulo en la tabla.
+    @Max(100)
+    @NotBlank
+    @Email
     @Column(name = "email", unique = true, nullable = false, length = 100)
     private String email;
 
     // @Column: Se utiliza para mapear el atributo 'direccion' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'direccion' no puede ser nulo en la tabla.
+
+    @Max(120)
+    @NotBlank
     @Column(name = "direccion", nullable = false, length = 120)
     private String direccion;
 
@@ -47,6 +62,9 @@ public class Maestro {
     // 'name' especifica el nombre de la columna en la tabla.
     // 'unique = true' indica que el valor del atributo 'telefono' debe ser único en la tabla.
     // 'nullable = false' indica que el valor del atributo 'telefono' no puede ser nulo en la tabla.
+    @Min(10)
+    @Max(13)
+    @NotBlank
     @Column(name = "telefono", unique = true, nullable = false, length = 15)
     private String telefono;
 

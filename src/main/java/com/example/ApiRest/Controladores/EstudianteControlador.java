@@ -1,13 +1,16 @@
 package com.example.ApiRest.Controladores;
 
+import com.example.ApiRest.Controladores.ManejoExcepciones.EstudianteNoEncontrado;
 import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Servicios.EstudianteServicio;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,7 @@ public class EstudianteControlador {
     @GetMapping
     @ApiOperation("Obtener todos los estudiantes registrados")
     public List<Estudiante> obtenerEstudiantes(){
+
         return estudianteServicio.obtenerEstudiantes();
     }
 
@@ -38,10 +42,12 @@ public class EstudianteControlador {
     // Llama a estudianteServicio.obtenerEstudiante(id) para obtener un estudiante por su ID.
     @GetMapping("/{id_estudiante}")
     @ApiOperation("Obtener la informacion de un estudiante mediante su id")
-    public Optional<Estudiante> obtenerEstudiante(
+    public Estudiante obtenerEstudiante(
             @ApiParam(value = "id_estudiante", required = true)
             @PathVariable Long id){
-        return estudianteServicio.obtenerEstudiante(id);
+
+            return estudianteServicio.obtenerEstudiante(id).orElseThrow(() -> new EstudianteNoEncontrado(id));
+
     }
 
     // @PostMapping: Mapea el método registrarEstudiante() a la ruta /api/estudiantes y responde a solicitudes POST.
@@ -51,7 +57,7 @@ public class EstudianteControlador {
     @ApiOperation("Registra un nuevo estudiante")
     public void registrarEstudiante(
             @ApiParam(value = "datos del nuevo estudiante", required = true)
-            @RequestBody Estudiante estudiante){
+            @Valid @RequestBody Estudiante estudiante){
         estudianteServicio.registrarEstudiante(estudiante);
     }
 
@@ -62,7 +68,7 @@ public class EstudianteControlador {
     @ApiOperation("Edita los datos de un estudiante mediante su id")
     public void actualizarEstudiante(
             @ApiParam(value = "datos nuevos del estudiante", required = true)
-            @RequestBody Estudiante estudiante,
+            @Valid @RequestBody Estudiante estudiante,
             @ApiParam(value = "id_estudiante", required = true)
             @PathVariable Long id){
         estudianteServicio.actualizarEstudiante(estudiante, id);
