@@ -2,6 +2,9 @@ package com.example.ApiRest.Controladores;
 
 import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Servicios.EstudianteServicio;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/estudiantes")
+@Api(tags = "EstudianteControlador", description = "Endpoints para administrar Estudiantes")
 public class EstudianteControlador {
 
     @Autowired
@@ -24,6 +28,7 @@ public class EstudianteControlador {
     // @GetMapping: Mapea el método obtenerEstudiantes() a la ruta /api/estudiantes y responde a solicitudes GET.
     // Llama a estudianteServicio.obtenerEstudiantes() para obtener todos los estudiantes.
     @GetMapping
+    @ApiOperation("Obtener todos los estudiantes registrados")
     public List<Estudiante> obtenerEstudiantes(){
         return estudianteServicio.obtenerEstudiantes();
     }
@@ -32,7 +37,10 @@ public class EstudianteControlador {
     // El parámetro @PathVariable extrae el valor del ID de la URL.
     // Llama a estudianteServicio.obtenerEstudiante(id) para obtener un estudiante por su ID.
     @GetMapping("/{id_estudiante}")
-    public Optional<Estudiante> obtenerEstudiante(@PathVariable Long id){
+    @ApiOperation("Obtener la informacion de un estudiante mediante su id")
+    public Optional<Estudiante> obtenerEstudiante(
+            @ApiParam(value = "id_estudiante", required = true)
+            @PathVariable Long id){
         return estudianteServicio.obtenerEstudiante(id);
     }
 
@@ -40,7 +48,10 @@ public class EstudianteControlador {
     // El parámetro @RequestBody obtiene el objeto Estudiante del cuerpo de la solicitud HTTP.
     // Llama a estudianteServicio.registrarEstudiante(estudiante) para registrar un nuevo estudiante.
     @PostMapping
-    public void registrarEstudiante(@RequestBody Estudiante estudiante){
+    @ApiOperation("Registra un nuevo estudiante")
+    public void registrarEstudiante(
+            @ApiParam(value = "datos del nuevo estudiante", required = true)
+            @RequestBody Estudiante estudiante){
         estudianteServicio.registrarEstudiante(estudiante);
     }
 
@@ -48,7 +59,12 @@ public class EstudianteControlador {
     // Los parámetros @RequestBody y @PathVariable funcionan igual que en los métodos anteriores.
     // Llama a estudianteServicio.actualizarEstudiante(estudiante, id) para actualizar los datos de un estudiante existente.
     @PutMapping("/{id_estudiante}")
-    public void actualizarEstudiante(@RequestBody Estudiante estudiante, @PathVariable Long id){
+    @ApiOperation("Edita los datos de un estudiante mediante su id")
+    public void actualizarEstudiante(
+            @ApiParam(value = "datos nuevos del estudiante", required = true)
+            @RequestBody Estudiante estudiante,
+            @ApiParam(value = "id_estudiante", required = true)
+            @PathVariable Long id){
         estudianteServicio.actualizarEstudiante(estudiante, id);
     }
 
@@ -56,7 +72,10 @@ public class EstudianteControlador {
     // El parámetro @PathVariable extrae el valor del ID de la URL.
     // Llama a estudianteServicio.borrarEstudiante(id) para borrar un estudiante por su ID.
     @DeleteMapping("/{id_estudiante}")
-    public void borrarEstudiante(@PathVariable Long id){
+    @ApiOperation("Elimina un estudiante mediante su id")
+    public void borrarEstudiante(
+
+            @PathVariable Long id){
         estudianteServicio.borrarEstudiante(id);
     }
 }

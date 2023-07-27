@@ -3,6 +3,9 @@ package com.example.ApiRest.Controladores;
 import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Entidades.Maestro;
 import com.example.ApiRest.Servicios.MaestroServicio;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/maestro")
+@RequestMapping(path = "/api/maestros")
+@Api(tags = "MaestroControlador", description = "Endpoints para administrar Maestros")
 public class MaestroControlador {
 
     // @Autowired: Inyecta automáticamente una instancia de MaestroServicio en el controlador.
@@ -25,15 +29,21 @@ public class MaestroControlador {
     // @GetMapping: Mapea el método obtenerMaestros() a la ruta /maestro y responde a solicitudes GET.
     // Llama a maestroServicio.obtenerMaestros() para obtener todos los maestros.
     @GetMapping
+    @ApiOperation("Obtener todos los maestros registrados")
     public List<Maestro> obtenerMaestros(){
+
         return maestroServicio.obtenerMaestros();
+
     }
 
     // @GetMapping: Mapea el método obtenerMaestro() a la ruta /maestro/{id_maestro} y responde a solicitudes GET.
     // El parámetro @PathVariable extrae el valor del ID de la URL.
     // Llama a maestroServicio.obtenerMaestro(id) para obtener un maestro por su ID.
     @GetMapping("/{id_maestro}")
-    public Optional<Maestro> obtenerMaestro(@PathVariable Long id){
+    @ApiOperation("Obtener la informacion un maestro mediante su id")
+    public Optional<Maestro> obtenerMaestro(
+            @ApiParam(value = "id_maestro", required = true)
+            @PathVariable Long id){
         return maestroServicio.obtenerMaestro(id);
     }
 
@@ -41,7 +51,10 @@ public class MaestroControlador {
     // El parámetro @RequestBody obtiene el objeto Maestro del cuerpo de la solicitud HTTP.
     // Llama a maestroServicio.registrarMaestro(maestro) para registrar un nuevo maestro.
     @PostMapping
-    public void registrarMaestro(@RequestBody Maestro maestro){
+    @ApiOperation("Registra un nuevo maestro")
+    public void registrarMaestro(
+            @ApiParam(value = "datos del nuevo maestro", required = true)
+            @RequestBody Maestro maestro){
         maestroServicio.registrarMaestro(maestro);
     }
 
@@ -49,7 +62,12 @@ public class MaestroControlador {
     // Los parámetros @RequestBody y @PathVariable funcionan igual que en los métodos anteriores.
     // Llama a maestroServicio.actualizarMaestro(maestro, id) para actualizar un maestro existente.
     @PutMapping("/{id_maestro}")
-    public void actualizarMaestro(@RequestBody Maestro maestro, @PathVariable Long id){
+    @ApiOperation("Edita los datos de un maestro mediante su id")
+    public void actualizarMaestro(
+            @ApiParam(value = "datos nuevos del maestro", required = true)
+            @RequestBody Maestro maestro,
+            @ApiParam(value = "id_maestro", required = true)
+            @PathVariable Long id){
         maestroServicio.actualizarMaestro(maestro, id);
     }
 
@@ -57,7 +75,10 @@ public class MaestroControlador {
     // El parámetro @PathVariable extrae el valor del ID de la URL.
     // Llama a maestroServicio.borrarMaestro(id) para borrar un maestro por su ID.
     @DeleteMapping("/{id_maestro}")
-    public void borrarMaestro(@PathVariable Long id){
+    @ApiOperation("Elimina un maestro mediante su id")
+    public void borrarMaestro(
+            @ApiParam(value = "id_maestro", required = true)
+            @PathVariable Long id){
         maestroServicio.borrarMaestro(id);
     }
 }
