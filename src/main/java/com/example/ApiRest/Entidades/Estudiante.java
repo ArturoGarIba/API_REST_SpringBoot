@@ -1,12 +1,17 @@
 package com.example.ApiRest.Entidades;
 
-//import jakarta.persistence.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-
+//
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+//import jakarta.persistence.*;
+//import jakarta.validation.constraints.Email;
+//import jakarta.validation.constraints.Max;
+//import jakarta.validation.constraints.Min;
+//import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -27,32 +32,31 @@ public class Estudiante {
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'nombre' no puede ser nulo en la tabla.
     @NotBlank
-    @Max(80)
+//    @Max(80)
     @Column(name = "nombre_alumno", nullable = false, length = 80)
-    private String nombre;
+    private String nombre_alumno;
 
 
     // @Column: Se utiliza para mapear el atributo 'apellido_paterno' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // Por defecto, el atributo 'apellido_paterno' permite valores nulos en la tabla.
     @NotBlank
-    @Max(80)
+//    @Max(80)
     @Column(name = "apellido_paterno", length = 80, nullable = false)
     private String apellido_paterno;
 
     @NotBlank
-    @Max(80)
+//    @Max(80)
     @Column(name = "apellido_materno", length = 80, nullable = false)
     private String apellido_materno;
 
     @NotBlank
-    @Max(9)
-    @Min(9)
-    @Column(name = "no_control", unique = true, nullable = false, length = 9)
-    private String numero_control;
+//    @Max(9)
+    @Column(name = "no_control", unique = true, nullable = false, length = 10)
+    private String no_control;
 
     @NotBlank
-    @Max(60)
+//    @Max(60)
     @Column(name = "carrera", nullable = false, length = 60)
     private String carrera;
 
@@ -63,10 +67,10 @@ public class Estudiante {
     @Email
     @NotBlank
     @Column(name = "direccion_email", unique = true, nullable = false, length = 100)
-    private String email;
+    private String direccion_email;
 
-    @Min(10)
-    @Max(13)
+
+//    @Max(13)
     @NotBlank
     @Column(name = "telefono", unique = true, nullable = false, length = 13)
     private String telefono;
@@ -74,6 +78,7 @@ public class Estudiante {
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    private List<Materia> materias;
 
+//    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "estudiante_materia",

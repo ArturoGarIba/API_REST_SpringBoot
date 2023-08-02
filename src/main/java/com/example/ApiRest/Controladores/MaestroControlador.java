@@ -1,18 +1,17 @@
 package com.example.ApiRest.Controladores;
 
 import com.example.ApiRest.Controladores.ManejoExcepciones.MaestroNoEncontrado;
-import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Entidades.Maestro;
 import com.example.ApiRest.Servicios.MaestroServicio;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+//import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/maestros")
@@ -56,7 +55,8 @@ public class MaestroControlador {
     @ApiOperation("Registra un nuevo maestro")
     public void registrarMaestro(
             @ApiParam(value = "datos del nuevo maestro", required = true)
-            @Valid @RequestBody Maestro maestro){
+//            @Valid
+            @RequestBody Maestro maestro){
         maestroServicio.registrarMaestro(maestro);
     }
 

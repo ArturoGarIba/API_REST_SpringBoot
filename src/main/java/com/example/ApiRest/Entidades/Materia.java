@@ -1,16 +1,17 @@
 package com.example.ApiRest.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-//import jakarta.persistence.*;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 
+//import jakarta.persistence.*;
+//import jakarta.validation.constraints.Max;
+//import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -26,7 +27,7 @@ public class Materia {
     // @Column: Se utiliza para mapear el atributo 'nombre' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'nombre' no puede ser nulo en la tabla.
-    @Max(80)
+//    @Max(80)
     @NotBlank
     @Column(name = "nombre", nullable = false, length = 80)
     private String nombre;
@@ -34,7 +35,7 @@ public class Materia {
     // @Column: Se utiliza para mapear el atributo 'horario' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'horario' no puede ser nulo en la tabla.
-    @Max(80)
+//    @Max(80)
     @NotBlank
     @Column(name = "horario", nullable = false, length = 80)
     private String horario;
@@ -43,7 +44,7 @@ public class Materia {
     // 'name' especifica el nombre de la columna en la tabla.
     // 'unique = true' indica que el valor del atributo 'salon' debe ser único en la tabla.
     // 'nullable = false' indica que el valor del atributo 'salon' no puede ser nulo en la tabla.
-    @Max(50)
+//    @Max(50)
     @NotBlank
     @Column(name = "salon", unique = true, nullable = false, length = 50)
     private String salon;
@@ -57,11 +58,11 @@ public class Materia {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Maestro maestro;
 
-//    // @OneToMany: Indica que la relación entre Materia y Estudiante es de uno a muchos (una materia puede tener varios estudiantes).
-//    // 'mappedBy' se utiliza para especificar el nombre del atributo en la clase Estudiante que mapea la relación inversa.
-//    // En este caso, el atributo 'materia' en la clase Estudiante representa la entidad relacionada Materia.
-//    // Esto implica que el mapeo de la relación se realiza a través del atributo 'materia' en la clase Estudiante.
 
+    //@JsonIgnore sirve para que no haya un error de recursividad en entre tabla materias y estudiantes cuando se consulte un
+    // estudiante y se muestren las materias
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "materias")
     private List<Estudiante> estudiantes;
 

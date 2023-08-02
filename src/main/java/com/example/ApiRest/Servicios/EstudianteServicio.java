@@ -44,8 +44,8 @@ public class EstudianteServicio {
     public void actualizarEstudiante(Estudiante estudiante, Long id){
         estudianteRepositorio.findById(id)
                 .map(estudiante1 -> {
-                    estudiante1.setNombre(estudiante.getNombre());
-                    estudiante1.setEmail(estudiante.getEmail());
+                    estudiante1.setNombre_alumno(estudiante.getNombre_alumno());
+                    estudiante1.setDireccion_email(estudiante.getDireccion_email());
                     estudiante1.setApellido_paterno(estudiante.getApellido_paterno());
                     return estudianteRepositorio.save(estudiante1);
                 });

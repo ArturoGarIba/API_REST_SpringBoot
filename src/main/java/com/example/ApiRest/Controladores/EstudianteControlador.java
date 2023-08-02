@@ -3,16 +3,12 @@ package com.example.ApiRest.Controladores;
 import com.example.ApiRest.Controladores.ManejoExcepciones.EstudianteNoEncontrado;
 import com.example.ApiRest.Entidades.Estudiante;
 import com.example.ApiRest.Servicios.EstudianteServicio;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -32,6 +28,11 @@ public class EstudianteControlador {
     // Llama a estudianteServicio.obtenerEstudiantes() para obtener todos los estudiantes.
     @GetMapping
     @ApiOperation("Obtener todos los estudiantes registrados")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK. Se obtuvieron correctamente los estudiantes", response = Estudiante.class),
+            @ApiResponse(code = 400, message = "BAD REQUEST. El servidor no pudo entender la solicitud", response = String.class),
+            @ApiResponse(code = 200, message = "INTERNAL SERVER ERROR. Error del servidor, no se pudo procesar la solicitud")
+    })
     public List<Estudiante> obtenerEstudiantes(){
 
         return estudianteServicio.obtenerEstudiantes();

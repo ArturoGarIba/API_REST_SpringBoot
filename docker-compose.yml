@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=Nanana12*
+      - MYSQL_DATABASE=api_spring
+#      - MYSQL_USER=root
+      - MYSQL_PASSWORD=Nanana12*
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
