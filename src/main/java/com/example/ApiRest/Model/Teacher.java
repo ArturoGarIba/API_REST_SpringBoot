@@ -1,10 +1,8 @@
-package com.example.ApiRest.Entidades;
+package com.example.ApiRest.Model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 //import jakarta.persistence.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
@@ -13,14 +11,17 @@ import javax.validation.constraints.NotBlank;
 //import jakarta.validation.constraints.Max;
 //import jakarta.validation.constraints.Min;
 //import jakarta.validation.constraints.NotBlank;
+import com.example.ApiRest.Model.Enum.TeacherState;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "maestros")
-public class Maestro {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Teacher {
 
     // @Id: Indica que el atributo 'id' es la clave primaria de la entidad.
     // @GeneratedValue: Especifica que el valor del atributo 'id' se generará automáticamente mediante una estrategia de identidad.
@@ -69,17 +70,14 @@ public class Maestro {
     // 'nullable = false' indica que el valor del atributo 'telefono' no puede ser nulo en la tabla.
 
 //    @Max(13)
+    @Min(10)
     @NotBlank
     @Column(name = "telefono", unique = true, nullable = false, length = 15)
     private String telefono;
 
-//    // @OneToMany: Indica que la relación entre Maestro y Materia es de uno a muchos (un maestro puede tener varias materias).
-//    // 'mappedBy' se utiliza para especificar el nombre del atributo en la clase Materia que mapea la relación inversa.
-//    // En este caso, el atributo 'maestro' en la clase Materia representa la entidad relacionada Maestro.
-//    // Esto implica que el mapeo de la relación se realiza a través del atributo 'maestro' en la clase Materia.
-
-//    @OneToMany(mappedBy = "maestro")
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//    private List<Materia> materias;
+//    @NotEmpty
+    @Enumerated(EnumType.STRING)
+    @Column(name = "teacher_state")
+    private TeacherState teacher_state;
 
 }

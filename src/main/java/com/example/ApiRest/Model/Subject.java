@@ -1,22 +1,26 @@
-package com.example.ApiRest.Entidades;
+package com.example.ApiRest.Model;
 
+import com.example.ApiRest.Model.Enum.SubjectState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 
 //import jakarta.persistence.*;
 //import jakarta.validation.constraints.Max;
 //import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "materias")
-public class Materia {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Subject {
 
     // @Id: Indica que el atributo 'id' es la clave primaria de la entidad.
     // @GeneratedValue: Especifica que el valor del atributo 'id' se generará automáticamente mediante una estrategia de identidad.
@@ -56,15 +60,19 @@ public class Materia {
     @ManyToOne
     @JoinColumn(name = "maestro_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Maestro maestro;
+    private Teacher teacher;
 
+//    @NotBlank
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subject_state")
+    private SubjectState subject_state;
 
     //@JsonIgnore sirve para que no haya un error de recursividad en entre tabla materias y estudiantes cuando se consulte un
     // estudiante y se muestren las materias
-
+//
     @JsonIgnore
     @ManyToMany(mappedBy = "materias")
-    private List<Estudiante> estudiantes;
+    private List<Student> students;
 
 
 }

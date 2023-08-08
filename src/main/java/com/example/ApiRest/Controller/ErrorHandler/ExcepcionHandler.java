@@ -1,4 +1,4 @@
-package com.example.ApiRest.Controladores.ManejoExcepciones;
+package com.example.ApiRest.Controller.ErrorHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,28 +7,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ManejadorExcepciones {
+public class ExcepcionHandler {
 
-    @ExceptionHandler(EstudianteNoEncontrado.class)
+    @ExceptionHandler(StudentNotFound.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String estudianteNoEncontradoManejador(EstudianteNoEncontrado ex)
+    String estudianteNoEncontradoManejador(StudentNotFound ex)
     {
         return ex.getMessage();
     }
 
-    @ExceptionHandler(MateriaNoEncontrada.class)
+    @ExceptionHandler(SubjectNotFound.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String materiaNoEncontradaManejador(MateriaNoEncontrada ex)
+    String materiaNoEncontradaManejador(SubjectNotFound ex)
     {
         return ex.getMessage();
     }
 
-    @ExceptionHandler(MaestroNoEncontrado.class)
+    @ExceptionHandler(TeacherNotFound.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String maestroNoEncontradoManejador(MaestroNoEncontrado ex)
+    String maestroNoEncontradoManejador(TeacherNotFound ex)
     {
         return ex.getMessage();
     }

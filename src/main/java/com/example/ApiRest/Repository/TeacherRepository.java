@@ -1,13 +1,13 @@
-package com.example.ApiRest.Repositorios;
+package com.example.ApiRest.Repository;
 
-import com.example.ApiRest.Entidades.Maestro;
+import com.example.ApiRest.Model.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 // @Repository: Anotación que marca la interfaz como un bean de repositorio de Spring.
 // Indica a Spring que esta interfaz debe ser escaneada en busca de componentes de repositorio.
 @Repository
-public interface MaestroRepositorio extends JpaRepository<Maestro, Long> {
+public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     // JpaRepository<Maestro, Long>: Esta interfaz extiende JpaRepository de Spring Data JPA.
     // Se parametriza con la clase de entidad 'Maestro' y el tipo de dato del atributo 'id', que es 'Long'.

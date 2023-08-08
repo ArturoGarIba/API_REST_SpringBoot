@@ -1,9 +1,7 @@
-package com.example.ApiRest.Servicios;
+package com.example.ApiRest.Service;
 
-import com.example.ApiRest.Entidades.Estudiante;
-import com.example.ApiRest.Entidades.Maestro;
-import com.example.ApiRest.Repositorios.EstudianteRepositorio;
-import com.example.ApiRest.Repositorios.MaestroRepositorio;
+import com.example.ApiRest.Model.Teacher;
+import com.example.ApiRest.Repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,52 +11,54 @@ import java.util.Optional;
 // @Service: Anotación que marca la clase como un bean de servicio de Spring.
 // Indica que esta clase contiene la lógica de negocio relacionada con la entidad 'Maestro'.
 @Service
-public class MaestroServicio {
+public class TeacherService {
 
     // @Autowired: Anotación que permite la inyección de dependencias automáticamente.
     // Inyecta el bean de repositorio 'MaestroRepositorio' en esta clase para que pueda acceder a sus métodos.
     @Autowired
-    MaestroRepositorio maestroRepositorio;
+    TeacherRepository teacherRepository;
 
     // Método para obtener todos los maestros.
     // Utiliza el método 'findAll()' proporcionado por 'MaestroRepositorio' para obtener una lista de todos los
     // maestros en la base de datos.
-    public List<Maestro> obtenerMaestros(){
-        return (List<Maestro>) maestroRepositorio.findAll();
+    public List<Teacher> obtenerMaestros(){
+        return (List<Teacher>) teacherRepository.findAll();
     }
 
     // Método para obtener un maestro por su ID.
     // Utiliza el método 'findById()' proporcionado por 'MaestroRepositorio' para buscar un maestro específico por su ID.
-    public Optional<Maestro> obtenerMaestro(Long id){
-        return maestroRepositorio.findById(id);
+    public Optional<Teacher> obtenerMaestro(Long id){
+        return teacherRepository.findById(id);
     }
 
     // Método para registrar un nuevo maestro.
     // Utiliza el método 'save()' proporcionado por 'MaestroRepositorio' para guardar el maestro en la base de datos.
-    public void registrarMaestro(Maestro maestro){
-        maestroRepositorio.save(maestro);
+    public Teacher registrarMaestro(Teacher teacher){
+
+        return teacherRepository.save(teacher);
+
     }
 
     // Método para actualizar los datos de un maestro existente.
     // Utiliza el método 'findById()' para obtener el maestro actual por su ID.
     // Luego, utiliza el método 'map()' para realizar la actualización de los datos del maestro.
     // Después de realizar la actualización, se utiliza nuevamente el método 'save()' para guardar los cambios en la base de datos.
-    public void actualizarMaestro(Maestro maestro, Long id){
-        maestroRepositorio.findById(id)
-                .map(maestro1 -> {
-                    maestro1.setNombre(maestro.getNombre());
-                    maestro1.setEmail(maestro.getEmail());
-                    maestro1.setApellido_paterno(maestro.getApellido_paterno());
-                    maestro1.setDireccion(maestro.getDireccion());
-                    maestro1.setTelefono(maestro.getTelefono());
-                    return maestroRepositorio.save(maestro1);
+    public void actualizarMaestro(Teacher teacher, Long id){
+        teacherRepository.findById(id)
+                .map(teacher1 -> {
+                    teacher1.setNombre(teacher.getNombre());
+                    teacher1.setEmail(teacher.getEmail());
+                    teacher1.setApellido_paterno(teacher.getApellido_paterno());
+                    teacher1.setDireccion(teacher.getDireccion());
+                    teacher1.setTelefono(teacher.getTelefono());
+                    return teacherRepository.save(teacher1);
                 });
     }
 
     // Método para borrar un maestro por su ID.
     // Utiliza el método 'deleteById()' proporcionado por 'MaestroRepositorio' para eliminar el maestro de la base de datos.
     public void borrarMaestro(Long id){
-        maestroRepositorio.deleteById(id);
+        teacherRepository.deleteById(id);
     }
 
 }

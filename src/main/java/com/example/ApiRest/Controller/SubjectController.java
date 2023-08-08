@@ -1,10 +1,9 @@
-package com.example.ApiRest.Controladores;
+package com.example.ApiRest.Controller;
 
-import com.example.ApiRest.Controladores.ManejoExcepciones.MateriaNoEncontrada;
-import com.example.ApiRest.Entidades.Estudiante;
-import com.example.ApiRest.Entidades.Materia;
-import com.example.ApiRest.Servicios.EstudianteServicio;
-import com.example.ApiRest.Servicios.MateriaServicio;
+import com.example.ApiRest.Controller.ErrorHandler.SubjectNotFound;
+import com.example.ApiRest.Model.Subject;
+import com.example.ApiRest.Service.StudentService;
+import com.example.ApiRest.Service.SubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,40 +13,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/materias")
 @Api(tags = "MateriaControlador", description = "Endpoints para administrar Materias")
-public class MateriaControlador {
+public class SubjectController {
 
     @Autowired
-    private final MateriaServicio materiaServicio;
+    private final SubjectService subjectService;
     @Autowired
-    private final EstudianteServicio estudianteServicio;
+    private final StudentService studentService;
     // Constructor que recibe una instancia del servicio MateriaServicio y la asigna al atributo materiaServicio.
-    public MateriaControlador(MateriaServicio materiaServicio, EstudianteServicio estudianteServicio) {
-        this.materiaServicio = materiaServicio;
-        this.estudianteServicio = estudianteServicio;
+    public SubjectController(SubjectService subjectService, StudentService studentService) {
+        this.subjectService = subjectService;
+        this.studentService = studentService;
     }
 
     // @GetMapping: Mapea el método obtenerMaestros() a la ruta /materia y responde a solicitudes GET.
     // Llama a materiaServicio.obtenerMaterias() para obtener todas las materias.
     @GetMapping
     @ApiOperation("Obtener todas las materias registradas")
-    public List<Materia> obtenerMaterias(){
-        return materiaServicio.obtenerMaterias();
+    public List<Subject> obtenerMaterias(){
+        return subjectService.obtenerMaterias();
     }
 
     // @GetMapping: Mapea el método obtenerMaestro() a la ruta /materia/{id_maestro} y responde a solicitudes GET.
     // El parámetro @PathVariable extrae el valor del ID de la URL.
     // Llama a materiaServicio.obtenerMateria(id) para obtener una materia por su ID.
-    @GetMapping("/{id_maestro}")
+    @GetMapping("/{id_materia}")
     @ApiOperation("Obtener una materia mediante su id")
-    public Materia obtenerMateria(
+    public Subject obtenerMateria(
             @ApiParam(value = "id_materia", required = true)
-            @PathVariable Long id){
-        return materiaServicio.obtenerMateria(id).orElseThrow(() -> new MateriaNoEncontrada(id));
+            @PathVariable Long id_materia){
+        return subjectService.obtenerMateria(id_materia).orElseThrow(() -> new SubjectNotFound(id_materia));
     }
 
     // @PostMapping: Mapea el método registrarMaestro() a la ruta /materia y responde a solicitudes POST.
@@ -58,8 +56,9 @@ public class MateriaControlador {
     @PostMapping
     @ApiOperation("Registrar una nueva materia")
     public void registrarMateria(
-           @Valid @RequestBody Materia materia) {
-        materiaServicio.registrarMateria(materia);
+           @Valid
+           @RequestBody Subject subject) {
+        subjectService.registrarMateria(subject);
 //        return ResponseEntity.ok();
     }
 
@@ -70,10 +69,10 @@ public class MateriaControlador {
     @ApiOperation("Edita los datos de una materia mediante su id")
     public void actualizarMateria(
             @ApiParam(value = "datos nuevos de la materia", required = true)
-            @Valid @RequestBody Materia materia,
+            @Valid @RequestBody Subject subject,
             @ApiParam(value = "id_materia", required = true)
-            @PathVariable Long id){
-        materiaServicio.actualizarMateria(materia, id);
+            @PathVariable Long id_materia){
+        subjectService.actualizarMateria(subject, id_materia);
     }
 
     // @DeleteMapping: Mapea el método borrarMaestro() a la ruta /materia/{id_maestro} y responde a solicitudes DELETE.
@@ -83,7 +82,9 @@ public class MateriaControlador {
     @ApiOperation("Elimina una materia mediante su id")
     public void borrarMateria(
             @ApiParam(value = "id_materia", required = true)
-            @PathVariable Long id){
-        materiaServicio.borrarMateria(id);
+            @PathVariable Long id_materia){
+
+        subjectService.borrarMateria(id_materia);
+
     }
 }

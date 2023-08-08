@@ -1,8 +1,8 @@
-package com.example.ApiRest.Controladores;
+package com.example.ApiRest.Controller;
 
-import com.example.ApiRest.Controladores.ManejoExcepciones.MaestroNoEncontrado;
-import com.example.ApiRest.Entidades.Maestro;
-import com.example.ApiRest.Servicios.MaestroServicio;
+import com.example.ApiRest.Controller.ErrorHandler.TeacherNotFound;
+import com.example.ApiRest.Model.Teacher;
+import com.example.ApiRest.Service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,24 +16,24 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/maestros")
 @Api(tags = "MaestroControlador", description = "Endpoints para administrar Maestros")
-public class MaestroControlador {
+public class TeacherController {
 
     // @Autowired: Inyecta automáticamente una instancia de MaestroServicio en el controlador.
     @Autowired
-    private final MaestroServicio maestroServicio;
+    private final TeacherService teacherService;
 
     // Constructor que recibe una instancia de MaestroServicio y la asigna al atributo maestroServicio.
-    public MaestroControlador(MaestroServicio maestroServicio) {
-        this.maestroServicio = maestroServicio;
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 
     // @GetMapping: Mapea el método obtenerMaestros() a la ruta /maestro y responde a solicitudes GET.
     // Llama a maestroServicio.obtenerMaestros() para obtener todos los maestros.
     @GetMapping
     @ApiOperation("Obtener todos los maestros registrados")
-    public List<Maestro> obtenerMaestros(){
+    public List<Teacher> obtenerMaestros(){
 
-        return maestroServicio.obtenerMaestros();
+        return teacherService.obtenerMaestros();
 
     }
 
@@ -42,10 +42,10 @@ public class MaestroControlador {
     // Llama a maestroServicio.obtenerMaestro(id) para obtener un maestro por su ID.
     @GetMapping("/{id_maestro}")
     @ApiOperation("Obtener la informacion un maestro mediante su id")
-    public Maestro obtenerMaestro(
+    public Teacher obtenerMaestro(
             @ApiParam(value = "id_maestro", required = true)
-            @PathVariable Long id){
-        return maestroServicio.obtenerMaestro(id).orElseThrow(() -> new MaestroNoEncontrado(id));
+            @PathVariable Long id_maestro){
+        return teacherService.obtenerMaestro(id_maestro).orElseThrow(() -> new TeacherNotFound(id_maestro));
     }
 
     // @PostMapping: Mapea el método registrarMaestro() a la ruta /maestro y responde a solicitudes POST.
@@ -55,9 +55,9 @@ public class MaestroControlador {
     @ApiOperation("Registra un nuevo maestro")
     public void registrarMaestro(
             @ApiParam(value = "datos del nuevo maestro", required = true)
-//            @Valid
-            @RequestBody Maestro maestro){
-        maestroServicio.registrarMaestro(maestro);
+            @Valid
+            @RequestBody Teacher teacher){
+        teacherService.registrarMaestro(teacher);
     }
 
     // @PutMapping: Mapea el método actualizarMaestro() a la ruta /maestro/{id_maestro} y responde a solicitudes PUT.
@@ -67,10 +67,10 @@ public class MaestroControlador {
     @ApiOperation("Edita los datos de un maestro mediante su id")
     public void actualizarMaestro(
             @ApiParam(value = "datos nuevos del maestro", required = true)
-            @Valid @RequestBody Maestro maestro,
+            @Valid @RequestBody Teacher teacher,
             @ApiParam(value = "id_maestro", required = true)
-            @PathVariable Long id){
-        maestroServicio.actualizarMaestro(maestro, id);
+            @PathVariable Long id_maestro){
+        teacherService.actualizarMaestro(teacher, id_maestro);
     }
 
     // @DeleteMapping: Mapea el método borrarMaestro() a la ruta /maestro/{id_maestro} y responde a solicitudes DELETE.
@@ -80,7 +80,7 @@ public class MaestroControlador {
     @ApiOperation("Elimina un maestro mediante su id")
     public void borrarMaestro(
             @ApiParam(value = "id_maestro", required = true)
-            @PathVariable Long id){
-        maestroServicio.borrarMaestro(id);
+            @PathVariable Long id_maestro){
+        teacherService.borrarMaestro(id_maestro);
     }
 }

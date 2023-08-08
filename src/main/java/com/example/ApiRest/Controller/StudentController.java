@@ -1,8 +1,8 @@
-package com.example.ApiRest.Controladores;
+package com.example.ApiRest.Controller;
 
-import com.example.ApiRest.Controladores.ManejoExcepciones.EstudianteNoEncontrado;
-import com.example.ApiRest.Entidades.Estudiante;
-import com.example.ApiRest.Servicios.EstudianteServicio;
+import com.example.ApiRest.Controller.ErrorHandler.StudentNotFound;
+import com.example.ApiRest.Model.Student;
+import com.example.ApiRest.Service.StudentService;
 import io.swagger.annotations.*;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,14 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/estudiantes")
 @Api(tags = "EstudianteControlador", description = "Endpoints para administrar Estudiantes")
-public class EstudianteControlador {
+public class StudentController {
 
     @Autowired
-    private final EstudianteServicio estudianteServicio;
+    private final StudentService studentService;
 
     // Constructor que recibe una instancia del servicio EstudianteServicio y la asigna al atributo estudianteServicio.
-    public EstudianteControlador(EstudianteServicio estudianteServicio) {
-        this.estudianteServicio = estudianteServicio;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     // @GetMapping: Mapea el método obtenerEstudiantes() a la ruta /api/estudiantes y responde a solicitudes GET.
@@ -29,13 +29,13 @@ public class EstudianteControlador {
     @GetMapping
     @ApiOperation("Obtener todos los estudiantes registrados")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK. Se obtuvieron correctamente los estudiantes", response = Estudiante.class),
+            @ApiResponse(code = 200, message = "OK. Se obtuvieron correctamente los estudiantes", response = Student.class),
             @ApiResponse(code = 400, message = "BAD REQUEST. El servidor no pudo entender la solicitud", response = String.class),
             @ApiResponse(code = 200, message = "INTERNAL SERVER ERROR. Error del servidor, no se pudo procesar la solicitud")
     })
-    public List<Estudiante> obtenerEstudiantes(){
+    public List<Student> obtenerEstudiantes(){
 
-        return estudianteServicio.obtenerEstudiantes();
+        return studentService.obtenerEstudiantes();
     }
 
     // @GetMapping: Mapea el método obtenerEstudiante() a la ruta /api/estudiantes/{id_estudiante} y responde a solicitudes GET.
@@ -43,11 +43,11 @@ public class EstudianteControlador {
     // Llama a estudianteServicio.obtenerEstudiante(id) para obtener un estudiante por su ID.
     @GetMapping("/{id_estudiante}")
     @ApiOperation("Obtener la informacion de un estudiante mediante su id")
-    public Estudiante obtenerEstudiante(
+    public Student obtenerEstudiante(
             @ApiParam(value = "id_estudiante", required = true)
-            @PathVariable Long id){
+            @PathVariable Long id_estudiante){
 
-            return estudianteServicio.obtenerEstudiante(id).orElseThrow(() -> new EstudianteNoEncontrado(id));
+            return studentService.obtenerEstudiante(id_estudiante).orElseThrow(() -> new StudentNotFound(id_estudiante));
 
     }
 
@@ -58,9 +58,11 @@ public class EstudianteControlador {
     @ApiOperation("Registra un nuevo estudiante")
     public void registrarEstudiante(
             @ApiParam(value = "datos del nuevo estudiante", required = true)
-            @Valid @RequestBody Estudiante estudiante){
-        estudianteServicio.registrarEstudiante(estudiante);
+            @Valid
+            @RequestBody Student student){
+        studentService.registrarEstudiante(student);
     }
+
 
     // @PutMapping: Mapea el método actualizarEstudiante() a la ruta /api/estudiantes/{id_estudiante} y responde a solicitudes PUT.
     // Los parámetros @RequestBody y @PathVariable funcionan igual que en los métodos anteriores.
@@ -69,10 +71,10 @@ public class EstudianteControlador {
     @ApiOperation("Edita los datos de un estudiante mediante su id")
     public void actualizarEstudiante(
             @ApiParam(value = "datos nuevos del estudiante", required = true)
-            @Valid @RequestBody Estudiante estudiante,
+            @Valid @RequestBody Student student,
             @ApiParam(value = "id_estudiante", required = true)
-            @PathVariable Long id){
-        estudianteServicio.actualizarEstudiante(estudiante, id);
+            @PathVariable Long id_estudiante){
+        studentService.actualizarEstudiante(student, id_estudiante);
     }
 
     // @DeleteMapping: Mapea el método borrarEstudiante() a la ruta /api/estudiantes/{id_estudiante} y responde a solicitudes DELETE.
@@ -80,9 +82,9 @@ public class EstudianteControlador {
     // Llama a estudianteServicio.borrarEstudiante(id) para borrar un estudiante por su ID.
     @DeleteMapping("/{id_estudiante}")
     @ApiOperation("Elimina un estudiante mediante su id")
-    public void borrarEstudiante(
+    public void borrarEstudiante(@PathVariable Long id_estudiante){
 
-            @PathVariable Long id){
-        estudianteServicio.borrarEstudiante(id);
+        studentService.borrarEstudiante(id_estudiante);
+
     }
 }

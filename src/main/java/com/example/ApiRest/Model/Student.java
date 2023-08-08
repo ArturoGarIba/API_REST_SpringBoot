@@ -1,10 +1,8 @@
-package com.example.ApiRest.Entidades;
+package com.example.ApiRest.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 //
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 //import jakarta.persistence.*;
@@ -12,7 +10,10 @@ import javax.validation.constraints.NotBlank;
 //import jakarta.validation.constraints.Max;
 //import jakarta.validation.constraints.Min;
 //import jakarta.validation.constraints.NotBlank;
+import com.example.ApiRest.Model.Enum.StudentState;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "estudiantes")
-public class Estudiante {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Student {
 
     // @Id: Indica que el atributo 'id' es la clave primaria de la entidad.
     // @GeneratedValue: Especifica que el valor del atributo 'id' se generará automáticamente mediante una estrategia de identidad.
@@ -31,7 +34,7 @@ public class Estudiante {
     // @Column: Se utiliza para mapear el atributo 'nombre' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'nombre' no puede ser nulo en la tabla.
-    @NotBlank
+//    @NotBlank
 //    @Max(80)
     @Column(name = "nombre_alumno", nullable = false, length = 80)
     private String nombre_alumno;
@@ -40,23 +43,19 @@ public class Estudiante {
     // @Column: Se utiliza para mapear el atributo 'apellido_paterno' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // Por defecto, el atributo 'apellido_paterno' permite valores nulos en la tabla.
-    @NotBlank
-//    @Max(80)
+
     @Column(name = "apellido_paterno", length = 80, nullable = false)
     private String apellido_paterno;
 
-    @NotBlank
-//    @Max(80)
+
     @Column(name = "apellido_materno", length = 80, nullable = false)
     private String apellido_materno;
 
-    @NotBlank
-//    @Max(9)
+
     @Column(name = "no_control", unique = true, nullable = false, length = 10)
     private String no_control;
 
-    @NotBlank
-//    @Max(60)
+
     @Column(name = "carrera", nullable = false, length = 60)
     private String carrera;
 
@@ -65,18 +64,20 @@ public class Estudiante {
     // 'unique = true' indica que el valor del atributo 'email' debe ser único en la tabla.
     // 'nullable = false' indica que el valor del atributo 'email' no puede ser nulo en la tabla.
     @Email
-    @NotBlank
     @Column(name = "direccion_email", unique = true, nullable = false, length = 100)
     private String direccion_email;
 
 
 //    @Max(13)
-    @NotBlank
+//    @NotBlank
+    @Min(10)
     @Column(name = "telefono", unique = true, nullable = false, length = 13)
     private String telefono;
-//    @OneToMany(mappedBy = "estudiante")
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//    private List<Materia> materias;
+
+//    @NotBlank
+    @Column(name = "student_state")
+    @Enumerated(EnumType.STRING)
+    private StudentState student_state;
 
 //    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -85,7 +86,7 @@ public class Estudiante {
             joinColumns = @JoinColumn(name = "estudiante_id"),
             inverseJoinColumns = @JoinColumn(name = "materia_id")
     )
-    private List<Materia> materias = new ArrayList<>();
+    private List<Subject> subjects = new ArrayList<>();
 
 
 }
