@@ -50,7 +50,7 @@ class TeacherServiceTest {
         teacherList.add(teacher);
         teacherList.add(teacher2);
         when(teacherRepository.findAll()).thenReturn(teacherList);
-        List<Teacher> result = teacherService.obtenerMaestros();
+        List<Teacher> result = teacherService.findTeachers();
 
         assertEquals(2, result.size());
         assertEquals("Teacher1", result.get(0).getNombre());
@@ -62,7 +62,7 @@ class TeacherServiceTest {
     void obtenerMaestro() {
 
         when(teacherRepository.findById(1L)).thenReturn(Optional.of(teacher));
-        Teacher result = teacherService.obtenerMaestro(1L).get();
+        Teacher result = teacherService.findTeacherById(1L).get();
         assertNotNull(result);
         assertEquals(result.getNombre(), "Teacher1");
 
@@ -72,7 +72,7 @@ class TeacherServiceTest {
     void registrarMaestro() {
 
         when(teacherRepository.save(any(Teacher.class))).thenReturn(teacher);
-        Teacher result = teacherService.registrarMaestro(teacher);
+        Teacher result = teacherService.addTeacher(teacher);
 
         assertNotNull(result);
         assertEquals(result.getNombre(), "Teacher1");
@@ -87,8 +87,8 @@ class TeacherServiceTest {
         teacher1.setId(2L);
         teacher1.setNombre("NewName");
         when(teacherRepository.findById(1L)).thenReturn(Optional.of(teacher1));
-        teacherService.actualizarMaestro(teacher1, 1L);
-        Teacher result = teacherService.obtenerMaestro(1L).get();
+        teacherService.updateTeacher(teacher1, 1L);
+        Teacher result = teacherService.findTeacherById(1L).get();
         assertEquals(result.getNombre(), "NewName");
 
     }
@@ -97,7 +97,7 @@ class TeacherServiceTest {
     void borrarMaestro() {
 
         Long id_teacher = 1L;
-        teacherService.borrarMaestro(id_teacher);
+        teacherService.deleteTeacher(id_teacher);
         verify(teacherRepository, times(1)).deleteById(id_teacher);
 
     }

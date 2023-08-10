@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "maestros")
+@Table(name = "teachers")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Teacher {
@@ -42,8 +42,8 @@ public class Teacher {
     // 'nullable = false' indica que el valor del atributo 'apellido_paterno' no puede ser nulo en la tabla.
 //    @Max(80)
     @NotBlank
-    @Column(name = "apellido_paterno", nullable = false, length = 80)
-    private String apellido_paterno;
+    @Column(name = "last_name", nullable = false, length = 80)
+    private String last_name;
 
     // @Column: Se utiliza para mapear el atributo 'email' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
@@ -61,8 +61,8 @@ public class Teacher {
 
 //    @Max(120)
     @NotBlank
-    @Column(name = "direccion", nullable = false, length = 120)
-    private String direccion;
+    @Column(name = "address", nullable = false, length = 120)
+    private String address;
 
     // @Column: Se utiliza para mapear el atributo 'telefono' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
@@ -72,8 +72,8 @@ public class Teacher {
 //    @Max(13)
     @Min(10)
     @NotBlank
-    @Column(name = "telefono", unique = true, nullable = false, length = 15)
-    private String telefono;
+    @Column(name = "phone_number", unique = true, nullable = false, length = 15)
+    private String phone_number;
 
 //    @NotEmpty
     @Enumerated(EnumType.STRING)

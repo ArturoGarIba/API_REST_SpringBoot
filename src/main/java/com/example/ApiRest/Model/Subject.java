@@ -17,7 +17,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "materias")
+@Table(name = "subjects")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Subject {
@@ -33,16 +33,16 @@ public class Subject {
     // 'nullable = false' indica que el valor del atributo 'nombre' no puede ser nulo en la tabla.
 //    @Max(80)
     @NotBlank
-    @Column(name = "nombre", nullable = false, length = 80)
-    private String nombre;
+    @Column(name = "name", nullable = false, length = 80)
+    private String name;
 
     // @Column: Se utiliza para mapear el atributo 'horario' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
     // 'nullable = false' indica que el valor del atributo 'horario' no puede ser nulo en la tabla.
 //    @Max(80)
     @NotBlank
-    @Column(name = "horario", nullable = false, length = 80)
-    private String horario;
+    @Column(name = "schedule", nullable = false, length = 80)
+    private String schedule;
 
     // @Column: Se utiliza para mapear el atributo 'salon' a una columna de la tabla.
     // 'name' especifica el nombre de la columna en la tabla.
@@ -50,15 +50,15 @@ public class Subject {
     // 'nullable = false' indica que el valor del atributo 'salon' no puede ser nulo en la tabla.
 //    @Max(50)
     @NotBlank
-    @Column(name = "salon", unique = true, nullable = false, length = 50)
-    private String salon;
+    @Column(name = "classroom", unique = true, nullable = false, length = 50)
+    private String classroom;
 
     // @ManyToOne: Indica que la relación entre Materia y Maestro es de muchos a uno (varias materias pueden tener el mismo maestro).
     // Esto se refleja en la base de datos mediante una clave foránea en la tabla de materias (atributo 'maestro_id').
     // El atributo 'maestro' en la clase Materia representa la entidad relacionada Maestro.
     // Si no se especifica @JoinColumn, JPA utilizará el nombre del atributo 'maestro' más "_id" como el nombre de la columna foránea.
     @ManyToOne
-    @JoinColumn(name = "maestro_id")
+    @JoinColumn(name = "teacher_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Teacher teacher;
 
@@ -71,7 +71,7 @@ public class Subject {
     // estudiante y se muestren las materias
 //
     @JsonIgnore
-    @ManyToMany(mappedBy = "materias")
+    @ManyToMany(mappedBy = "subjects")
     private List<Student> students;
 
 

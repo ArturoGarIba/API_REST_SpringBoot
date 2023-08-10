@@ -50,11 +50,11 @@ class SubjectServiceTest {
         subjectList.add(subject2);
 
         when(subjectRepository.findAll()).thenReturn(subjectList);
-        List<Subject> result = subjectService.obtenerMaterias();
+        List<Subject> result = subjectService.findSubjects();
 
         assertEquals(2, result.size());
-        assertEquals("English", result.get(0).getNombre());
-        assertEquals("Spanish", result.get(1).getNombre());
+        assertEquals("English", result.get(0).getName());
+        assertEquals("Spanish", result.get(1).getName());
 
     }
 
@@ -63,9 +63,9 @@ class SubjectServiceTest {
 
         Long id_subject = 1L;
         when(subjectRepository.findById(id_subject)).thenReturn(Optional.of(subject));
-        Subject result = subjectService.obtenerMateria(id_subject).get();
+        Subject result = subjectService.findSubjectById(id_subject).get();
         assertNotNull(result);
-        assertEquals("English", result.getNombre());
+        assertEquals("English", result.getName());
 
     }
 
@@ -73,10 +73,10 @@ class SubjectServiceTest {
     void registrarMateria() {
 
         when(subjectRepository.save(any(Subject.class))).thenReturn(subject);
-        Subject result = subjectService.registrarMateria(subject);
+        Subject result = subjectService.addSubject(subject);
 
         assertNotNull(result);
-        assertEquals(result.getNombre(), "English");
+        assertEquals(result.getName(), "English");
         assertEquals(result.getId(), 1L);
 
     }
@@ -87,11 +87,11 @@ class SubjectServiceTest {
 //        Student student2 = new Student();
 //        subject.setId(2L);
 //        subject.setNombre("NuevoNombre");
-        subject2.setNombre("NuevoNombre");
+        subject2.setName("NuevoNombre");
         when(subjectRepository.findById(1L)).thenReturn(Optional.of(subject));
-        subjectService.actualizarMateria(subject2, 1L);
-        Subject result = subjectService.obtenerMateria(1L).get();
-        assertEquals(subject.getNombre(), "NuevoNombre");
+        subjectService.updateSubject(subject2, 1L);
+        Subject result = subjectService.findSubjectById(1L).get();
+        assertEquals(subject.getName(), "NuevoNombre");
 
 
     }
@@ -100,7 +100,7 @@ class SubjectServiceTest {
     void borrarMateria() {
 
         Long id_subject = 31L;
-        subjectService.borrarMateria(id_subject);
+        subjectService.deleteSubject(id_subject);
         verify(subjectRepository, times(1)).deleteById(id_subject);
     }
 }

@@ -4,8 +4,8 @@ public class StudentNotFound extends RuntimeException {
 
     private Long id;
 
-    public StudentNotFound(Long id_estudiante){
-        super("No se pudo encontrar el estudiante con el ID: " + id_estudiante + " en los registros ");
+    public StudentNotFound(Long id_student){
+        super("No se pudo encontrar el estudiante con el ID: " + id_student + " en los registros ");
     }
 
 

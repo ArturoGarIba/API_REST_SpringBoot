@@ -14,8 +14,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/maestros")
-@Api(tags = "MaestroControlador", description = "Endpoints para administrar Maestros")
+@RequestMapping(path = "/api/teachers")
+@Api(tags = "TeacherController", description = "Endpoints para administrar Maestros")
 public class TeacherController {
 
     // @Autowired: Inyecta automáticamente una instancia de MaestroServicio en el controlador.
@@ -31,9 +31,9 @@ public class TeacherController {
     // Llama a maestroServicio.obtenerMaestros() para obtener todos los maestros.
     @GetMapping
     @ApiOperation("Obtener todos los maestros registrados")
-    public List<Teacher> obtenerMaestros(){
+    public List<Teacher> findTeachers(){
 
-        return teacherService.obtenerMaestros();
+        return teacherService.findTeachers();
 
     }
 
@@ -42,10 +42,10 @@ public class TeacherController {
     // Llama a maestroServicio.obtenerMaestro(id) para obtener un maestro por su ID.
     @GetMapping("/{id_maestro}")
     @ApiOperation("Obtener la informacion un maestro mediante su id")
-    public Teacher obtenerMaestro(
+    public Teacher findTeacherById(
             @ApiParam(value = "id_maestro", required = true)
             @PathVariable Long id_maestro){
-        return teacherService.obtenerMaestro(id_maestro).orElseThrow(() -> new TeacherNotFound(id_maestro));
+        return teacherService.findTeacherById(id_maestro).orElseThrow(() -> new TeacherNotFound(id_maestro));
     }
 
     // @PostMapping: Mapea el método registrarMaestro() a la ruta /maestro y responde a solicitudes POST.
@@ -53,11 +53,11 @@ public class TeacherController {
     // Llama a maestroServicio.registrarMaestro(maestro) para registrar un nuevo maestro.
     @PostMapping
     @ApiOperation("Registra un nuevo maestro")
-    public void registrarMaestro(
+    public void addTeacher(
             @ApiParam(value = "datos del nuevo maestro", required = true)
             @Valid
             @RequestBody Teacher teacher){
-        teacherService.registrarMaestro(teacher);
+        teacherService.addTeacher(teacher);
     }
 
     // @PutMapping: Mapea el método actualizarMaestro() a la ruta /maestro/{id_maestro} y responde a solicitudes PUT.
@@ -65,12 +65,12 @@ public class TeacherController {
     // Llama a maestroServicio.actualizarMaestro(maestro, id) para actualizar un maestro existente.
     @PutMapping("/{id_maestro}")
     @ApiOperation("Edita los datos de un maestro mediante su id")
-    public void actualizarMaestro(
+    public void updateTeacher(
             @ApiParam(value = "datos nuevos del maestro", required = true)
             @Valid @RequestBody Teacher teacher,
-            @ApiParam(value = "id_maestro", required = true)
-            @PathVariable Long id_maestro){
-        teacherService.actualizarMaestro(teacher, id_maestro);
+            @ApiParam(value = "id_teacher", required = true)
+            @PathVariable Long id_teacher){
+        teacherService.updateTeacher(teacher, id_teacher);
     }
 
     // @DeleteMapping: Mapea el método borrarMaestro() a la ruta /maestro/{id_maestro} y responde a solicitudes DELETE.
@@ -78,9 +78,9 @@ public class TeacherController {
     // Llama a maestroServicio.borrarMaestro(id) para borrar un maestro por su ID.
     @DeleteMapping("/{id_maestro}")
     @ApiOperation("Elimina un maestro mediante su id")
-    public void borrarMaestro(
-            @ApiParam(value = "id_maestro", required = true)
-            @PathVariable Long id_maestro){
-        teacherService.borrarMaestro(id_maestro);
+    public void deleteTeacher(
+            @ApiParam(value = "id_teacher", required = true)
+            @PathVariable Long id_teacher){
+        teacherService.deleteTeacher(id_teacher);
     }
 }
